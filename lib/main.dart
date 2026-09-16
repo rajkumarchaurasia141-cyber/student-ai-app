@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
 
   // अपनी Gemini API Key यहाँ डालें (aistudio.google.com से मुफ़्त मिलती है)
-  final String _apiKey = 'YOUR_GEMINI_API_KEY_HERE';
+  final String _apiKey = AQ.Ab8RN6KuzeChCOMMRdhdQYf7ZO-OCxndmB1GTmhRUuHTKeDsAg
 
   Future<void> _processText(String promptType) async {
     if (_textController.text.trim().isEmpty) return;
