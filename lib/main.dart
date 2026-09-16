@@ -74,7 +74,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
 }
 
-// ---------------- 1. मल्टी-फ़ोटो समरी और नोट्स (हल्का व ऑप्टिमाइज्ड) ----------------
+// ---------------- 1. मल्टी-फ़ोटो समरी और नोट्स ----------------
 class MultiPhotoSummaryTab extends StatefulWidget {
   const MultiPhotoSummaryTab({super.key});
 
@@ -89,7 +89,6 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
   String _result = '';
   bool _loading = false;
 
-  // हाई-कंप्रेशन: 720px चौड़ाई + 50% क्वालिटी ताकि नेटवर्क क्रैश न हो
   Future<void> _addFromCamera() async {
     final XFile? photo = await _picker.pickImage(
       source: ImageSource.camera,
@@ -129,7 +128,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
     });
 
     try {
-      final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
+      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: _apiKey);
       final List<Part> parts = [];
 
       for (var img in _images) {
@@ -148,7 +147,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
         _result = response.text ?? 'सारांश तैयार नहीं हो सका।';
       });
     } catch (e) {
-      setState(() => _result = 'नेटवर्क त्रुटि (Error): $e\nकृपया इंटरनेट कनेक्शन जांचें।');
+      setState(() => _result = 'त्रुटि (Error): $e\nकृपया इंटरनेट कनेक्शन जांचें।');
     } finally {
       setState(() => _loading = false);
     }
@@ -315,7 +314,7 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
     });
 
     try {
-      final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
+      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: _apiKey);
       final List<Part> parts = [];
 
       if (_img != null) {
@@ -442,7 +441,7 @@ class _DiagramMakerTabState extends State<DiagramMakerTab> {
     });
 
     try {
-      final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
+      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: _apiKey);
       String prompt = 'आप "Student AI" के डायग्राम विशेषज्ञ हैं। '
           'छात्र को "$topic" का नामांकित चित्र (Labelled Diagram) चाहिए। '
           'कृपया इस चित्र के सभी भागों के नाम, कॉपी पर बनाने के आसान स्टेप्स और विवरण साफ़ हिंदी में दें।';
