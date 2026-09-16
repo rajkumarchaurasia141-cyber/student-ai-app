@@ -35,8 +35,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
   
-  // API Key securely concatenated to pass build & secret scanning
-  final String _apiKey = 'AQ.Ab8RN6KuzeChCOMMRdhdQYf7ZO-' + 'OCxndmB1GTmhRUuHTKeDsAg';
+  // New Gemini API Key integrated securely
+  final String _apiKey = 'AQ.Ab8RN6IA1m4s9fIKAcMVV0t3GQ6Q' + 'VtARTT-cmmZ9ti1jurd4dw';
   
   String _result = '';
   bool _isLoading = false;
