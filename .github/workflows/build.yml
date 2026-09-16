@@ -28,6 +28,10 @@ jobs:
       - name: Recreate Android Project Scaffold
         run: flutter create . --org com.rajkumar.studentai --project-name student_ai_app
 
+      - name: Add Internet Permission to AndroidManifest
+        run: |
+          sed -i '/<application/i \    <uses-permission android:name="android.permission.INTERNET"/>' android/app/src/main/AndroidManifest.xml
+
       - name: Get dependencies
         run: flutter pub get
 
