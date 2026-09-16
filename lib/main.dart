@@ -11,7 +11,7 @@ class StudentAIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Student AI Assistant',
+      title: 'AI Exam Prep & Notes',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -35,7 +35,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
   
-  // New Gemini API Key integrated securely
+  // Active Gemini API Key
   final String _apiKey = 'AQ.Ab8RN6IA1m4s9fIKAcMVV0t3GQ6Q' + 'VtARTT-cmmZ9ti1jurd4dw';
   
   String _result = '';
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final model = GenerativeModel(
-        model: 'gemini-1.5-flash',
+        model: 'gemini-1.5-flash-latest',
         apiKey: _apiKey,
       );
 
