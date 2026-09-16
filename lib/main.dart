@@ -129,14 +129,14 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
         parts.add(DataPart('image/jpeg', bytes));
       }
 
-      const prompt = 'आप "Student AI" के सर्वोत्तम शिक्षक हैं। '
+      String prompt = 'आप "Student AI" के सर्वोत्तम शिक्षक हैं। '
           'छात्र ने किताब/कॉपी के कई पन्नों की तस्वीरें भेजी हैं। '
           'कृपया इन सभी तस्वीरों को ध्यान से पढ़कर आसान हिंदी में प्रस्तुत करें:\n'
           '1. पूरे पाठ का स्पष्ट और संपूर्ण सारांश (Summary)\n'
           '2. परीक्षा के लिए सबसे महत्वपूर्ण बिंदु (Key Notes / Bullet Points)\n'
           '3. सभी मुख्य परिभाषाएँ और सूत्र (Formulas)';
 
-      parts.add(const TextPart(prompt));
+      parts.add(TextPart(prompt));
 
       final response = await model.generateContent([Content.multi(parts)]);
       setState(() {
@@ -409,7 +409,7 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
   }
 }
 
-// ---------------- 3. AI डायग्राम व चित्र मेकर (Diagram Maker) ----------------
+// ---------------- 3. AI डायग्राम व चित्र मेकर ----------------
 class DiagramMakerTab extends StatefulWidget {
   const DiagramMakerTab({super.key});
 
@@ -439,12 +439,12 @@ class _DiagramMakerTabState extends State<DiagramMakerTab> {
 
     try {
       final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
-      final prompt = 'आप "Student AI" के डायग्राम विशेषज्ञ हैं। '
+      String prompt = 'आप "Student AI" के डायग्राम विशेषज्ञ हैं। '
           'छात्र को "$topic" का नामांकित चित्र (Labelled Diagram) चाहिए। '
           'कृपया:\n'
           '1. इस चित्र की पूरी संरचना और सभी भागों (Parts) के नाम साफ़-साफ़ समझाएँ।\n'
           '2. कॉपी पर इस चित्र को कैसे आसान स्टेप्स (Step 1, Step 2, Step 3) में बनाना है, वह सिखाएँ।\n'
-          '3. एक टेक्स्ट/ASCII या रेखाचित्र का प्रारूप दें ताकि छात्र देखकर तुरंत अपनी कॉपी पर बना सके।';
+          '3. एक स्पष्ट रेखाचित्र का प्रारूप दें ताकि छात्र देखकर तुरंत अपनी कॉपी पर बना सके।';
 
       final res = await model.generateContent([Content.text(prompt)]);
       setState(() => _diagResult = res.text ?? 'डायग्राम विवरण नहीं बन सका।');
