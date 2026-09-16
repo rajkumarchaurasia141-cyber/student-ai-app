@@ -74,7 +74,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
 }
 
-// ---------------- 1. मल्टी-फ़ोटो समरी और नोट्स (10-20 पन्ने) ----------------
+// ---------------- 1. मल्टी-फ़ोटो समरी और नोट्स (हल्का व ऑप्टिमाइज्ड) ----------------
 class MultiPhotoSummaryTab extends StatefulWidget {
   const MultiPhotoSummaryTab({super.key});
 
@@ -89,15 +89,23 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
   String _result = '';
   bool _loading = false;
 
+  // हाई-कंप्रेशन: 720px चौड़ाई + 50% क्वालिटी ताकि नेटवर्क क्रैश न हो
   Future<void> _addFromCamera() async {
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 80);
+    final XFile? photo = await _picker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 720,
+      imageQuality: 50,
+    );
     if (photo != null) {
       setState(() => _images.add(File(photo.path)));
     }
   }
 
   Future<void> _addFromGallery() async {
-    final List<XFile> photos = await _picker.pickMultiImage(imageQuality: 80);
+    final List<XFile> photos = await _picker.pickMultiImage(
+      maxWidth: 720,
+      imageQuality: 50,
+    );
     if (photos.isNotEmpty) {
       setState(() {
         for (var p in photos) {
@@ -110,7 +118,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
   Future<void> _summarizeAll() async {
     if (_images.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('कृपया कम से कम 1 या अधिक पन्नों की फ़ोटो लें!')),
+        const SnackBar(content: Text('कृपया कम से कम 1 फ़ोटो लें!')),
       );
       return;
     }
@@ -129,12 +137,9 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
         parts.add(DataPart('image/jpeg', bytes));
       }
 
-      String prompt = 'आप "Student AI" के सर्वोत्तम शिक्षक हैं। '
-          'छात्र ने किताब/कॉपी के कई पन्नों की तस्वीरें भेजी हैं। '
-          'कृपया इन सभी तस्वीरों को ध्यान से पढ़कर आसान हिंदी में प्रस्तुत करें:\n'
-          '1. पूरे पाठ का स्पष्ट और संपूर्ण सारांश (Summary)\n'
-          '2. परीक्षा के लिए सबसे महत्वपूर्ण बिंदु (Key Notes / Bullet Points)\n'
-          '3. सभी मुख्य परिभाषाएँ और सूत्र (Formulas)';
+      String prompt = 'आप "Student AI" के शिक्षक हैं। '
+          'छात्र ने कुल ${_images.length} पन्नों की तस्वीरें भेजी हैं। '
+          'कृपया इन सभी पन्नों का विस्तृत सारांश (Summary), महत्वपूर्ण बिंदु (Key Notes) और सभी मुख्य सूत्र हिंदी में बिंदुवार समझाइए।';
 
       parts.add(TextPart(prompt));
 
@@ -143,7 +148,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
         _result = response.text ?? 'सारांश तैयार नहीं हो सका।';
       });
     } catch (e) {
-      setState(() => _result = 'त्रुटि (Error): $e');
+      setState(() => _result = 'नेटवर्क त्रुटि (Error): $e\nकृपया इंटरनेट कनेक्शन जांचें।');
     } finally {
       setState(() => _loading = false);
     }
@@ -167,7 +172,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
                 Icon(Icons.info_outline, color: Colors.indigo),
                 SizedBox(width: 8),
                 Expanded(
-                  child: Text('किताब या नोट्स के 5, 10 या 20 पन्नों की फ़ोटो खींचें और एक क्लिक में पूरा सारांश और नोट्स पाएँ।'),
+                  child: Text('किताब या नोट्स के 5, 10 या 15 पन्नों की फ़ोटो खींचें और एक क्लिक में पूरा सारांश और नोट्स पाएँ।'),
                 ),
               ],
             ),
@@ -274,7 +279,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
   }
 }
 
-// ---------------- 2. यूनिवर्सल सवाल हल (Math, Science, All Subjects) ----------------
+// ---------------- 2. यूनिवर्सल सवाल हल ----------------
 class DoubtSolverTab extends StatefulWidget {
   const DoubtSolverTab({super.key});
 
@@ -291,7 +296,7 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
   bool _busy = false;
 
   Future<void> _pickPhoto(ImageSource src) async {
-    final p = await _picker.pickImage(source: src, imageQuality: 85);
+    final p = await _picker.pickImage(source: src, maxWidth: 800, imageQuality: 70);
     if (p != null) setState(() => _img = File(p.path));
   }
 
@@ -318,9 +323,8 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
         parts.add(DataPart('image/jpeg', bytes));
       }
 
-      String prompt = 'आप "Student AI" के विशेषज्ञ शिक्षक हैं। '
-          'छात्र के इस सवाल (गणित, विज्ञान या किसी भी विषय) का चरण-दर-चरण (Step-by-Step) '
-          'और स्पष्ट हल आसान हिंदी में समझाइए:\n$txt';
+      String prompt = 'आप "Student AI" के शिक्षक हैं। '
+          'छात्र के इस सवाल का चरण-दर-चरण (Step-by-Step) और सटीक हल आसान हिंदी में दीजिए:\n$txt';
 
       parts.add(TextPart(prompt));
 
@@ -409,7 +413,7 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
   }
 }
 
-// ---------------- 3. AI डायग्राम व चित्र मेकर ----------------
+// ---------------- 3. AI डायग्राम मेकर ----------------
 class DiagramMakerTab extends StatefulWidget {
   const DiagramMakerTab({super.key});
 
@@ -427,7 +431,7 @@ class _DiagramMakerTabState extends State<DiagramMakerTab> {
     final topic = _diagCtrl.text.trim();
     if (topic.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('कृपया किसी डायग्राम का नाम लिखें (जैसे: मानव आँख)!')),
+        const SnackBar(content: Text('कृपया डायग्राम का नाम लिखें!')),
       );
       return;
     }
@@ -441,10 +445,7 @@ class _DiagramMakerTabState extends State<DiagramMakerTab> {
       final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
       String prompt = 'आप "Student AI" के डायग्राम विशेषज्ञ हैं। '
           'छात्र को "$topic" का नामांकित चित्र (Labelled Diagram) चाहिए। '
-          'कृपया:\n'
-          '1. इस चित्र की पूरी संरचना और सभी भागों (Parts) के नाम साफ़-साफ़ समझाएँ।\n'
-          '2. कॉपी पर इस चित्र को कैसे आसान स्टेप्स (Step 1, Step 2, Step 3) में बनाना है, वह सिखाएँ।\n'
-          '3. एक स्पष्ट रेखाचित्र का प्रारूप दें ताकि छात्र देखकर तुरंत अपनी कॉपी पर बना सके।';
+          'कृपया इस चित्र के सभी भागों के नाम, कॉपी पर बनाने के आसान स्टेप्स और विवरण साफ़ हिंदी में दें।';
 
       final res = await model.generateContent([Content.text(prompt)]);
       setState(() => _diagResult = res.text ?? 'डायग्राम विवरण नहीं बन सका।');
