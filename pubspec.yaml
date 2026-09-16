@@ -1,0 +1,17 @@
+name: student_ai_app
+description: AI exam prep and notes summarizer app.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_generative_ai: ^0.4.0
+  google_mobile_ads: ^5.1.0
+
+flutter:
+  uses-material-design: true
+  
