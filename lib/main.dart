@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final model = GenerativeModel(
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.6-flash',
         apiKey: _apiKey,
       );
 
