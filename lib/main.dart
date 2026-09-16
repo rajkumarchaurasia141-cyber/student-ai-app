@@ -42,10 +42,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    MultiPhotoSummaryScreen(),   // 1. मल्टी-फ़ोटो नोट्स व समरी
-    UniversalDoubtSolverScreen(), // 2. गणित/विज्ञान कोई भी सवाल हल
-    ChapterNotesScreen(),        // 3. सभी विषय नोट्स
-    OnlineMcqTestScreen(),       // 4. MCQ टेस्ट सीरीज़
+    MultiPhotoSummaryScreen(),
+    UniversalDoubtSolverScreen(),
+    ChapterNotesScreen(),
+    OnlineMcqTestScreen(),
   ];
 
   @override
@@ -79,7 +79,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   }
 }
 
-// ---------------- 1. मल्टी-फ़ोटो समरी और नोट्स (10-20 फ़ोटो एक साथ) ----------------
+// ---------------- 1. मल्टी-फ़ोटो समरी और नोट्स ----------------
 class MultiPhotoSummaryScreen extends StatefulWidget {
   const MultiPhotoSummaryScreen({super.key});
 
@@ -95,7 +95,6 @@ class _MultiPhotoSummaryScreenState extends State<MultiPhotoSummaryScreen> {
   String _summaryResult = '';
   bool _isLoading = false;
 
-  // कैमरे से एक-एक करके लगातार फ़ोटो खींचना
   Future<void> _captureFromCamera() async {
     final XFile? photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 80);
     if (photo != null) {
@@ -105,7 +104,6 @@ class _MultiPhotoSummaryScreenState extends State<MultiPhotoSummaryScreen> {
     }
   }
 
-  // गैलरी से एक साथ कई फ़ोटो (10, 15, 20) चुनना
   Future<void> _pickMultiFromGallery() async {
     final List<XFile> photos = await _picker.pickMultiImage(imageQuality: 80);
     if (photos.isNotEmpty) {
@@ -117,7 +115,6 @@ class _MultiPhotoSummaryScreenState extends State<MultiPhotoSummaryScreen> {
     }
   }
 
-  // सभी फ़ोटो को एक साथ एनालाइज़ और समराइज़ करना
   Future<void> _generateSummary() async {
     if (_selectedImages.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -148,7 +145,7 @@ class _MultiPhotoSummaryScreenState extends State<MultiPhotoSummaryScreen> {
           '3. इसमें आए सभी महत्वपूर्ण सूत्र / परिभाषाएँ अलग से लिखें।\n'
           'यह सब शुद्ध और आसान हिंदी में प्रस्तुत करें।';
 
-      parts.add(TextPart(prompt));
+      parts.add(const TextPart(prompt));
 
       final response = await model.generateContent([Content.multi(parts)]);
       setState(() {
@@ -277,7 +274,7 @@ class _MultiPhotoSummaryScreenState extends State<MultiPhotoSummaryScreen> {
                 children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 10),
-                  Text('AI सभी पन्नों को पढ़ रहा है, कृपया 10-15 सेकंड प्रतीक्षा करें...'),
+                  Text('AI सभी पन्नों को पढ़ रहा है, कृपया प्रतीक्षा करें...'),
                 ],
               ),
             )
@@ -299,7 +296,7 @@ class _MultiPhotoSummaryScreenState extends State<MultiPhotoSummaryScreen> {
   }
 }
 
-// ---------------- 2. यूनिवर्सल सवाल हल (Math, Science, All Subjects) ----------------
+// ---------------- 2. यूनिवर्सल सवाल हल (Math/Science) ----------------
 class UniversalDoubtSolverScreen extends StatefulWidget {
   const UniversalDoubtSolverScreen({super.key});
 
@@ -460,19 +457,19 @@ class ChapterNotesScreen extends StatelessWidget {
       'chapters': [
         {
           'ch': 'अध्याय 1: वास्तविक संख्याएँ',
-          'notes': '• यूक्लिड विभाजन प्रमेयिका: a = bq + r (0 ≤ r < b)\n• अंकगणित की आधारभूत प्रमेय: प्रत्येक भाज्य संख्या अभाज्य संख्याओं का अद्वितीय गुणनफल होती है।\n• HCF(a, b) × LCM(a, b) = a × b\n• √2, √3, √5 अपरिमेय संख्याएँ हैं।'
+          'notes': '• यूक्लिड विभाजन प्रमेयिका: a = bq + r (0 ≤ r < b)\n• HCF(a, b) × LCM(a, b) = a × b\n• √2, √3, √5 अपरिमेय संख्याएँ हैं।'
         },
         {
           'ch': 'अध्याय 2: बहुपद',
-          'notes': '• द्विघात बहुपद: ax² + bx + c = 0\n  - शून्यकों का योग (α + β) = -b/a\n  - शून्यकों का गुणनफल (αβ) = c/a'
+          'notes': '• द्विघात बहुपद: ax² + bx + c = 0\n• α + β = -b/a, αβ = c/a'
         },
         {
           'ch': 'अध्याय 4: द्विघात समीकरण',
-          'notes': '• विविक्तकर: D = b² - 4ac\n  - D > 0: दो भिन्न वास्तविक मूल\n  - D = 0: दो बराबर वास्तविक मूल\n  - D < 0: कोई वास्तविक मूल नहीं'
+          'notes': '• मानक रूप: ax² + bx + c = 0\n• विविक्तकर D = b² - 4ac'
         },
         {
           'ch': 'अध्याय 8: त्रिकोणमिति का परिचय',
-          'notes': '• sin θ = लम्ब/कर्ण, cos θ = आधार/कर्ण, tan θ = लम्ब/आधार\n• sin²θ + cos²θ = 1\n• 1 + tan²θ = sec²θ\n• 1 + cot²θ = cosec²θ'
+          'notes': '• sin²θ + cos²θ = 1\n• 1 + tan²θ = sec²θ\n• 1 + cot²θ = cosec²θ'
         },
       ]
     },
@@ -483,7 +480,7 @@ class ChapterNotesScreen extends StatelessWidget {
       'chapters': [
         {
           'ch': 'भौतिकी: प्रकाश परावर्तन एवं अपवर्तन',
-          'notes': '• दर्पण सूत्र: 1/f = 1/v + 1/u\n• लेंस सूत्र: 1/f = 1/v - 1/u\n• लेंस की क्षमता: P = 1/f (मीटर में), मात्रक डायोप्टर (D)'
+          'notes': '• दर्पण सूत्र: 1/f = 1/v + 1/u\n• लेंस सूत्र: 1/f = 1/v - 1/u\n• लेंस की क्षमता P = 1/f (डायोप्टर)'
         },
         {
           'ch': 'भौतिकी: विद्युत (Electricity)',
@@ -491,11 +488,7 @@ class ChapterNotesScreen extends StatelessWidget {
         },
         {
           'ch': 'रसायन: अम्ल, क्षारक एवं लवण',
-          'notes': '• अम्ल: नीले लिटमस को लाल (pH < 7)\n• क्षारक: लाल लिटमस को नीला (pH > 7)\n• उदासीन जल का pH = 7'
-        },
-        {
-          'ch': 'जीव विज्ञान: जैव प्रक्रम',
-          'notes': '• प्रकाश संश्लेषण: पौधे सूर्य के प्रकाश में भोजन बनाते हैं।\n• वृक्क की रचनात्मक इकाई: नेफ्रॉन'
+          'notes': '• अम्ल: नीले लिटमस को लाल करता है (pH < 7)\n• क्षारक: लाल लिटमस को नीला करता है (pH > 7)'
         },
       ]
     },
@@ -506,11 +499,7 @@ class ChapterNotesScreen extends StatelessWidget {
       'chapters': [
         {
           'ch': 'इतिहास: भारत में राष्ट्रवाद',
-          'notes': '• जालियानवाला बाग हत्याकांड: 13 अप्रैल 1919\n• असहयोग आंदोलन: 1920-1922\n• सविनय अवज्ञा आंदोलन (दांडी यात्रा): 1930'
-        },
-        {
-          'ch': 'भूगोल: भारत संसाधन एवं उपयोग',
-          'notes': '• काली मिट्टी (रेगुर मिट्टी): कपास के लिए सर्वोत्तम।\n• कोसी नदी को "बिहार का शोक" कहा जाता है।'
+          'notes': '• जालियानवाला बाग हत्याकांड: 13 अप्रैल 1919\n• असहयोग आंदोलन: 1920-1922\n• सविनय अवज्ञा आंदोलन: 1930'
         },
       ]
     },
@@ -549,4 +538,42 @@ class ChapterNotesScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: SelectableText(ch['notes'], style: const
+                      child: SelectableText(
+                        ch['notes'],
+                        style: const TextStyle(fontSize: 14, height: 1.45),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ---------------- 4. ऑनलाइन MCQ टेस्ट सीरीज़ ----------------
+class OnlineMcqTestScreen extends StatefulWidget {
+  const OnlineMcqTestScreen({super.key});
+
+  @override
+  State<OnlineMcqTestScreen> createState() => _OnlineMcqTestScreenState();
+}
+
+class _OnlineMcqTestScreenState extends State<OnlineMcqTestScreen> {
+  final List<Map<String, dynamic>> questions = [
+    {
+      'q': 'π (पाई) एक संख्या है:',
+      'opts': ['परिमेय', 'अपरिमेय', 'पूर्णांक', 'प्राकृत'],
+      'ans': 1
+    },
+    {
+      'q': 'द्विघात बहुपद के शून्यकों की अधिकतम संख्या होती है:',
+      'opts': ['1', '2', '3', 'अनंत'],
+      'ans': 1
+    },
+    {
+      'q': 'दाढ़ी बनाने में किस प्रकार के दर्पण का उपयोग किया जाता है?',
+      'opts': ['समतल', 'उत
