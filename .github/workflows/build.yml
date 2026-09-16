@@ -25,6 +25,9 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Recreate Android Project Scaffold
+        run: flutter create . --org com.rajkumar.studentai --project-name student_ai_app
+
       - name: Get dependencies
         run: flutter pub get
 
