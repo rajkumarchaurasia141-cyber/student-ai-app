@@ -85,7 +85,7 @@ class MultiPhotoSummaryTab extends StatefulWidget {
 class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
   final List<File> _images = [];
   final ImagePicker _picker = ImagePicker();
-  final String _apiKey = 'AQ.Ab8RN6IA1m4s9fIKAcMVV0t3GQ6Q' + 'VtARTT-cmmZ9ti1jurd4dw';
+  final String _apiKey = 'AQ.Ab8RN6K1BfHiwrfCdThE8G-or_4N_2I18xsB4LYdRQvABLIIIw';
   String _result = '';
   bool _loading = false;
 
@@ -128,7 +128,7 @@ class _MultiPhotoSummaryTabState extends State<MultiPhotoSummaryTab> {
     });
 
     try {
-      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: _apiKey);
+      final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
       final List<Part> parts = [];
 
       for (var img in _images) {
@@ -290,7 +290,7 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
   final TextEditingController _ctrl = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   File? _img;
-  final String _apiKey = 'AQ.Ab8RN6IA1m4s9fIKAcMVV0t3GQ6Q' + 'VtARTT-cmmZ9ti1jurd4dw';
+  final String _apiKey = 'AQ.Ab8RN6K1BfHiwrfCdThE8G-or_4N_2I18xsB4LYdRQvABLIIIw';
   String _ans = '';
   bool _busy = false;
 
@@ -314,7 +314,7 @@ class _DoubtSolverTabState extends State<DoubtSolverTab> {
     });
 
     try {
-      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: _apiKey);
+      final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
       final List<Part> parts = [];
 
       if (_img != null) {
@@ -422,7 +422,7 @@ class DiagramMakerTab extends StatefulWidget {
 
 class _DiagramMakerTabState extends State<DiagramMakerTab> {
   final TextEditingController _diagCtrl = TextEditingController();
-  final String _apiKey = 'AQ.Ab8RN6IA1m4s9fIKAcMVV0t3GQ6Q' + 'VtARTT-cmmZ9ti1jurd4dw';
+  final String _apiKey = 'AQ.Ab8RN6K1BfHiwrfCdThE8G-or_4N_2I18xsB4LYdRQvABLIIIw';
   String _diagResult = '';
   bool _isDrawing = false;
 
@@ -441,7 +441,7 @@ class _DiagramMakerTabState extends State<DiagramMakerTab> {
     });
 
     try {
-      final model = GenerativeModel(model: 'gemini-3.6-flash', apiKey: _apiKey);
+      final model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: _apiKey);
       String prompt = 'आप "Student AI" के डायग्राम विशेषज्ञ हैं। '
           'छात्र को "$topic" का नामांकित चित्र (Labelled Diagram) चाहिए। '
           'कृपया इस चित्र के सभी भागों के नाम, कॉपी पर बनाने के आसान स्टेप्स और विवरण साफ़ हिंदी में दें।';
